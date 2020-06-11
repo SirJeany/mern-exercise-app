@@ -17,7 +17,15 @@ mongoose.connect(uri , { useNewUrlParser: true, useCreateIndex: true, useUnified
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully.");
-})
+});
+
+// Require the routes for the crud api
+const exerciseRouter = require('./routes/exercises');
+const userRouter = require('./routes/users');
+
+// Link front-end views to the routes:
+app.use('/exercises', exerciseRouter);
+app.use('/users', userRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
