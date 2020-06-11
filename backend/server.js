@@ -23,7 +23,7 @@ connection.once('open', () => {
 const exerciseRouter = require('./routes/exercises');
 const userRouter = require('./routes/users');
 
-// Link front-end views to the routes:
+// Link uri views to the routes:
 app.use('/exercises', exerciseRouter);
 app.use('/users', userRouter);
 
