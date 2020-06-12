@@ -1,5 +1,7 @@
 const router = require('express').Router();
 let Exercise = require('../models/exercise.model');
+const { route } = require('./users');
+const { json } = require('express');
 
 router.route('/').get((req, res) => {
     Exercise.find()
@@ -7,6 +9,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Add an exercise
 router.route('/add').post((req, res) => {
     const username = req.body.username;
     const description = req.body.description;
@@ -24,5 +27,14 @@ router.route('/add').post((req, res) => {
         .then(() => res.json('Exercise added!'))
         .catch( err => res.send(400).json('Error: ' + err));
 });
+
+// Show specific exercise:
+router.route('/:id').get((req, res) => {
+    Exercise.findById(req.params.id)
+        .then(exercise => res.json(exercise))
+        .catch(err => res.status(400).json(`Error getting exercise with id: ${req.params.id}: ` + err));
+});
+
+
 
 module.exports = router;
