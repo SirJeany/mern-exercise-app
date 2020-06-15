@@ -42,6 +42,20 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json(`Error deleting exercise with id: ${req.params.id}: ` + err));
 });
 
+// Update Exercise:
+router.route('/update/:id').post((req, res) => {
+    Exercise.findById(req.params.id)
+        .then(exercise => {
+            exercise.username = req.body.username;
+            exercise.description = req.body.description;
+            exercise.duration = Number(req.body.duration);
+            exercise.date = Date.parse(req.body.date);
 
+            exercise.save()
+                .then(() => res.json('Exercise updated!'))
+                .catch(err => res.status(400).json(`Error updating (within the update method) post with id: ${req.params.id}: ` + err));
+        })
+        .catch(err => res.status(400).json(`Error updating post with id: ${req.params.id}: ` + err));
+});
 
 module.exports = router;
