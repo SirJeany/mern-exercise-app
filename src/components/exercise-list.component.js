@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Exercise from '../../backend/models/exercise.model';
+
+// Note that we now have a component class with two components implemented..
+// Exercise is the functional React component and 
+// ExerciseList is the class component.
+
+const Exercise = props => (
+    <tr>
+        <td>{props.exercise.username}</td>
+        <td>{props.exercise.description}</td>
+        <td>{props.exercise.duration}</td>
+        <td>{props.exercise.date.substring(0,10)}</td>
+        <td>
+            <Link to={"/edit/"+props.exercise._id}>Edit</Link> | <a href="#" onClick={() => props.deleteExercise(props.exercise._id)}>Delete</a>
+        </td>
+    </tr>
+)
+// This functional component lacks the state and lifecycle components of the class component
 
 export default class ExerciseList extends Component {
     constructor(props) {
@@ -33,6 +51,13 @@ export default class ExerciseList extends Component {
         this.setState({
             exercises: this.state.exercises.filter(el => el._id != id)
         });
+    }
+
+    // Method tp display exercises:
+    exerciseList() {
+        return this.state.exercises.map( current_exercise => {
+            return <Exercise exercise={current_exercise} deleteExercise={this.deleteExercise} key={current_exercise._id} />;
+        })
     }
 
     render() {
