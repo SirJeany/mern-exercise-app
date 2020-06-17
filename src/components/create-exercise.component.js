@@ -43,6 +43,7 @@ export default class CreateExercise extends Component {
                     });
                 }
             })
+            .catch(err => console.log("Error getting all users from backend: ", err));
     }
 
     // Now we code some methods that will change the state, ie update something on the database but reflect changes on the front end.
