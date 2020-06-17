@@ -81,7 +81,7 @@ export default class CreateExercise extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <h3>Create new Exercise Log</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
