@@ -37,7 +37,8 @@ export default class CreateUser extends Component {
 
         // Using the axois lib for sending http requests between front and backend:
         axios.post('http://localhost:8080/users/add', user)
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .catch(err => console.log("Error adding now user: ", err));
 
         // Navigate user back to same page:
         this.setState({
