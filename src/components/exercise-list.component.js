@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Exercise from '../../backend/models/exercise.model';
+// import Exercise from '../../backend/models/exercise.model';
 
 // Note that we now have a component class with two components implemented..
 // Exercise is the functional React component and 
@@ -14,7 +14,7 @@ const Exercise = props => (
         <td>{props.exercise.duration}</td>
         <td>{props.exercise.date.substring(0,10)}</td>
         <td>
-            <Link to={"/edit/"+props.exercise._id}>Edit</Link> | <a href="#" onClick={() => props.deleteExercise(props.exercise._id)}>Delete</a>
+            <Link className="btn btn-info" to={"/edit/"+props.exercise._id}>Edit</Link> | <button className="btn btn-danger" onClick={() => props.deleteExercise(props.exercise._id)}>Delete</button>
         </td>
     </tr>
 )
@@ -44,12 +44,12 @@ export default class ExerciseList extends Component {
 
     // Delete method:
     deleteExercise(id) {
-        axios.delete('http://localhost:8080/exercises' + id)
+        axios.delete('http://localhost:8080/exercises/' + id)
             .then(res => console.log(res.data))
             .catch(err => console.log(`Error sending accross info to delete exercise (id = ${id}): `, err));
         
         this.setState({
-            exercises: this.state.exercises.filter(el => el._id != id)
+            exercises: this.state.exercises.filter(el => el._id !== id)
         });
     }
 
