@@ -1,5 +1,5 @@
 import React from 'react';
-import { BowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar.component";
 import ExerciseList from "./components/exercise-list.component";
