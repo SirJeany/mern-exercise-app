@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateExercise extends Component {
     constructor(props) {
         super(props); // all js constructors start with a super function call.
+        this.userInputRef = React.createRef(); // No idea why this makes it work.. React likes you to declare ref values this way
 
         // Currently the program wont know what 'this' is inside the methods.
         // What the following does: Binds the methods.
@@ -26,10 +28,21 @@ export default class CreateExercise extends Component {
     // componentDidMount: A react lifecycle method that gets called right before anything displays on the page:
     // So lets use it to hardcode a user for testing:
     componentDidMount() {
-        this.setState({
-            users: ['Test User'],
-            username: 'Test User'
-        });
+        // this.setState({
+        //     users: ['Test User'],
+        //     username: 'Test User'
+        // });
+
+        // For real data:
+        axios.get('http://localhost:8080/users')
+            .then(res => {
+                if(res.data.length > 0){
+                    this.setState({
+                        users: res.data.map( user => user.username ),
+                        username: res.data[0].username
+                    });
+                }
+            })
     }
 
     // Now we code some methods that will change the state, ie update something on the database but reflect changes on the front end.
@@ -75,6 +88,11 @@ export default class CreateExercise extends Component {
 
         console.log("New exerise data: ", exercise);
 
+        // Using axios we will send the new data to the backend to be changed.
+        axios.post('http://localhost:8080/exercises/add', exercise)
+            .then(res => console.log(res.data))
+            .catch(err => console.log("Error updating exercise: ", err));
+
         window.location = '/';
     }
 
@@ -86,7 +104,7 @@ export default class CreateExercise extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Username:</label>
-                        <select ref="userInput" 
+                        <select ref={this.userInputRef} 
                         required 
                         className="form-control" 
                         value={this.state.username} 
